@@ -16,20 +16,20 @@ function RegisterPage() {
             return alert("Las contraseñas no coinciden")
         }
 
-        const res = await fetch('/api/auth/register', {
-            method: 'POST',
-            body: JSON.stringify(
-                {
-                    username: data.username,
-                    email: data.email,
-                    password: data.password,
-                }),
+        const res = await fetch("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify({
+                username: data.username,
+                email: data.email,
+                password: data.password,
+            }),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
         });
+
         if (res.ok) {
-            router.push('/auth/login')
+            router.push("/auth/login")
         }
     });
 
