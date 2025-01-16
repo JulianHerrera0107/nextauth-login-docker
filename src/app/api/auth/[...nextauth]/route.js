@@ -20,7 +20,7 @@ export const authOptions = {
           },
         });
 
-        if (!userFound) return null;
+        if (!userFound) throw new Error("Usuario no encontrado");
 
         console.log(userFound);
 
@@ -30,7 +30,7 @@ export const authOptions = {
           userFound.password
         );
 
-        if (!matchPassword) return null;
+        if (!matchPassword) throw new Error("Contraseña incorrecta");
 
         //Si logra pasar las comparaciones se espera recibir un token para la sesion en el Frontend
         return {
