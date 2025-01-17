@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/libs/db";
 import bcrypt from "bcrypt";
+import { signIn } from "next-auth/react";
 
 export const authOptions = {
   providers: [
@@ -41,6 +42,9 @@ export const authOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/login",
+  }
 };
 
 //Lo importamos en una función Handler aparte de las opciones de Autorización
