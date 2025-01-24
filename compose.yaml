@@ -1,30 +1,47 @@
-services:
-  app:
-    container_name: app-nextjs
-    build:
-      context: ./
+#Servicios que se levantaran en el contenedor de Docker
+services: 
+  #Nombre del servicio de la app de Nextjs
+  app: 
+    container_name: app-nextjs 
+    #Especifica como construir la imagen de Docker
+    build: 
+      context: ./ 
+      #Apunta a una etapa especifica en el Dockerfile
       target: runner
-    volumes:
-      - .:/app
-      - '/app/node_modules'
+    #Mapear las carpetas entre tu sistema y el contenedor
+    volumes: 
+      - .:/app 
+      #Evita que node_modules sea sobreescrito en el contenedor
+      - '/app/node_modules' 
+    #Expone puertos entre el host y contenedor
     ports:
-      - "3002:3002"
-    environment:
+      #Mapea del puerto 3002 del host al puerto 3002 del contenedor
+      - "3002:3002" 
+    #Configura varíables de entorno
+    environment: 
+      #Define el entorno de ejecución de "desarrollo"
       NODE_ENV: development
-    command: npm run dev
+    #Comando para ejecutar al iniciar contenedor
+    command: npm run dev 
+    #El servicio no se levantará hasta que el servicio db este operativo
     depends_on:
-      - db
-  db: #Host Servidor de Docker
+      - db 
+  #Host Servidor de DB en Docker
+  db: 
     container_name: db_postgresql_v2
+    #Imagen más ligera de PostgreSQL
     image: postgres:17-alpine
     ports:
       - "5434:5432"
+    #Configura el contenedor para reiniciarse automáticamente si falla
     restart: always
     environment:
       POSTGRES_USER: admin_v2
       POSTGRES_PASSWORD: passwordv2
       POSTGRES_DB: login_db_v2
+    #Persistencia datos
     volumes:
+      #Los datos de la base de datos se almacenan fuera del contenedor.
       - postgres_v2_data:/var/lib/postgresql/data
   gestor-bd:
     image: dpage/pgadmin4
