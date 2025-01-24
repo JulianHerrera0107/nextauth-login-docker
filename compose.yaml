@@ -1,0 +1,44 @@
+services:
+  app:
+    container_name: app-nextjs
+    build:
+      context: ./
+      target: runner
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+    command: npm run dev
+    depends_on:
+      - db
+  db: #Host Servidor de Docker
+    container_name: db_postgresql_v2
+    image: postgres:17-alpine
+    ports:
+      - "5434:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: admin_v2
+      POSTGRES_PASSWORD: passwordv2
+      POSTGRES_DB: login_db_v2
+    volumes:
+      - postgres_v2_data:/var/lib/postgresql/data
+  gestor-bd:
+    image: dpage/pgadmin4
+    container_name: pgadmin_v2
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: adminv2@email.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5052:80"
+    volumes:
+      - pgadmin_v2_data:/var/lib/pgadmin
+    depends_on:
+      - db
+volumes:
+  postgres_v2_data:
+  pgadmin_v2_data:
